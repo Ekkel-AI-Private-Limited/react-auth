@@ -1,41 +1,46 @@
-import { configureStore,getDefaultMiddleware } from '@reduxjs/toolkit'
-import { combineReducers } from 'redux'
-import { 
-  persistStore, 
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER 
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import {authReducer} from './auth/auth'
+import {
+    configureStore,
+    getDefaultMiddleware,
+  } from "@reduxjs/toolkit";
+  import { combineReducers } from "redux";
+  import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+  } from "redux-persist";
+  import { createLogger } from "redux-logger";
+  import storage from "redux-persist/lib/storage";
+  import { authReducer } from "./reducer";
 
-const reducer = combineReducers({
-  // here we will be adding reducers
-  auth: authReducer,
-})
-
-const persistConfig = {
-  key: 'root',
-  version: 1,
-  storage,
-  whitelist: ['auth',"event", "meeting"]
-}
-
-const persistedReducer = persistReducer(persistConfig, reducer)
-
-const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-    }
-  })
-})
-
-let persistor = persistStore(store)
-
-export {store, persistor};
+  const logger = createLogger({ collapsed: true });
+  const reducers = combineReducers({
+    auth: authReducer
+  });
+  
+  const persistConfig = {
+    key: "root",
+    // version: 1,
+    storage,
+    whitelist: ["auth"],
+  };
+  
+  const persistedReducer = persistReducer(persistConfig, reducers);
+  
+  const store = configureStore({
+    reducer: persistedReducer,
+    middleware: getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(logger),
+  });
+  
+  const persistor = persistStore(store);
+  
+  export { store, persistor };
+  
