@@ -1,21 +1,16 @@
 import React from 'react'
 // import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { DashboardPage } from '../view';
 import { routes } from './routesConstants';
 
+
 const PrivateRoutes = ({ component: Page, authToken, ...rest }: any) => {
-    // const token: any = useSelector(selectHeaderToken);
-   
-    // HttpService.setToken(token);
-    console.log('inside');
+    console.log('Hello')
     return (
-        <Route {...rest} render={(props:any) => {
-            return (
-                <>
-                    {authToken ? <Page {...props} /> : <Redirect to={routes.login} />}
-                </>
-            )
-        }} />
+        <Switch>
+            <Route path={routes.dashboard} component={DashboardPage}/>
+        </Switch>
     );
 }
 

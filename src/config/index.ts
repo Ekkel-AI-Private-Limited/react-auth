@@ -1,8 +1,5 @@
 const dev = {
-    // API_ENDPOINT: "http://stag-reco-backend.renesistechdemo.com:3009",
-    // API_ENDPOINT: "http://localhost:8000/api/v1",
-    // API_ENDPOINT: "https://reco-api-server.herokuapp.com/api/v1",
-    API_ENDPOINT: "http://localhost:3000/api/v1",
+    API_ENDPOINT: "http://localhost:3001/api/v1",
   };
   
   const stag = {
